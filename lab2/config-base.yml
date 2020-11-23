@@ -1,0 +1,32 @@
+---
+- name: Configure Device Base Configurations
+  hosts: cisco_csr
+  connection: network_cli
+  gather_facts: no
+  become: yes
+  tasks:
+  - name: Configure Hostname and DNS
+    ios_system:
+      hostname: "{{ inventory_hostname_short }}"
+      name_servers: "{{ dns_servers }}"
+      timeout: 60
+    notify: "save ios"
+
+  - name: Set Login Banner
+    ios_banner:
+      banner: login
+      text: "{{ login_banner }}"
+      timeout: 60
+    notify: "save ios"
+
+  - name: Configure NTP
+    ios_ntp:
+      server: "{{ item }}"
+    loop: "{{ ntp_servers }}"
+    notify: "save ios"
+
+  - name: Configure SNMP
+    ios_config:
+      lines: "{{ snmp.commands }}"
+      timeout: 60
+    notify: "save ios"

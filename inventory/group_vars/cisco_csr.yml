@@ -1,0 +1,12 @@
+---
+login_banner: "UNAUTHORIZED ACCESS TO THIS DEVICE IS PROHIBITED"
+dns_servers:
+  - 192.168.2.102
+  - 8.8.8.8
+ntp_servers:
+  - 10.220.1.15
+snmp:
+  commands:
+    - snmp-server community ansible RO
+    - snmp-server contact Networking
+    - snmp-server location Lab
